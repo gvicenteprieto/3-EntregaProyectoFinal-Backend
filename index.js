@@ -23,16 +23,6 @@ const serverMode = argv.mode || "FORK";
 
 const app = express();
 
-
-import sendEmail from "./src/utils/messageEmailEthereal.js";
-//sendEmail();
-import sendEmailGoogle from "./src/utils/messageEmailGoogle.js";
-// sendEmailGoogle();
-import sendSMS from "./src/utils/messageSMS.js";
-// sendSMS();
-import sendWhatsApp from "./src/utils/messageWhatsApp.js";
-//sendWhatsApp();
-
 /*============================[Middlewares]============================*/
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -75,7 +65,6 @@ app.use('/', routerInfo);
 app.use('/', routeUser);
 app.use('/api', routeProduct);
 app.use('/api', routeCart);
-
 
 app.get('*', (req, res) => {
   logger.warn({
