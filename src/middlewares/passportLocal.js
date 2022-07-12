@@ -25,12 +25,13 @@ export const signupStrategy = new Strategy(
             if (user) return done(null, false)
             const newUser = {
                 name: req.body.name,
-                lastname: req.body.lastname,
+                lastName: req.body.lastName,
                 adress: req.body.adress,
                 age: req.body.age,
                 phone: req.body.phone,
                 image: req.body.image,
-                file: req.body.file,
+                images: req.file.image,
+                file: req.file.image,
                 username: req.body.username,
                 email: req.body.email,
                 password: createHash(password),
