@@ -1,11 +1,4 @@
 import express from "express";
-//mejorar código:
-//import app from "./src/app.js";
-
-//recordar configuración de vistas:
-//app.set('views', './src/views');
-
-
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -64,13 +57,6 @@ app.engine('hbs', handlebars.engine({
 
 app.set('view engine', 'hbs');
 app.set('views', './views');
-
-//ver:
-/*=======================[Archivos estáticos]=======================*/
-//app.use(express.static(path.join(app.get('views'), 'public')));
-
-
-
 
 /*============================[Rutas Info]============================*/
 app.use('/', routerInfo);

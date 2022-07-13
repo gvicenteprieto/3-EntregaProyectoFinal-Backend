@@ -6,74 +6,49 @@ import allProducts from "../services/listProductsOnDB.js";
 const listProductsOnDB = allProducts;
 //import { upload } from "../middlewares/upload.js";
 
+
+import userController from "../controllers/userController.js";
+
 import multer from "multer";
-//const upload = multer({ dest: "uploads/Users" }); >>>> pasa al código de abajo
 const storageStrategy = multer.memoryStorage();
 const upload = multer({ storage: storageStrategy });
 
 import sharp from "sharp";
 import fs from "fs";
-// sharp = sharp.load({
-//   allowOverwrite: true,
-//   failOnError: false
-// });
-
-
-
-
-
 
 const routeUser = Router();
 
 /*============================[Rutas API: /]============================*/
 routeUser
 
-  .get('/productos', isAuth, (req, res) => {
+// .get("/users/signup", userController.renderSignUpForm)
+// // .post("/users/signup", upload.single("image"), userController.signup)
+// // .get("/users/signin", userController.renderSignInForm)
+// .post("/users/signup", userController.signup)
+
+// .get("/users/signin", userController.renderSignInForm)
+
+// .post("/users/signin", userController.signIn)
+
+// .get("/users/logout", userController.logout)
+
+
+
+
+
+
+  .get('/productos', isAuth, async (req, res) => {
     if (req.user.username) {
       const nombre = req.user.username
       const email = req.user.email
       const id = req.user._id
       const imagen = req.user.image
-      // if (imagen) {
-      //   sharp(imagen)
-      //     .resize(200, 200)
-      //     .toBuffer()
-      //     .then(data => {
-      //       res.json({
-      //         nombre: nombre,
-      //         email: email,
-      //         id: id,
-      //         imagen: data
-      //       });
-      //     }).catch(err => {
-      //       logger.error(err);
-
-      //     });
-      //   }
-      // const processImage = sharp(imagen.buffer)
-      //   .resize(200, 200) 
-      //   .toBuffer()
-      //   .then(data => {
-      //     res.json({
-      //       nombre: nombre,
-      //       email: email,
-      //       id: id,
-      //       imagen: data
-      //     });
-      //   }).catch(err => {
-      //     logger.error(err);
-      //   }
-      //   );
-
-
-
-
-      logger.info(`Se registra petición GET /productos por ${nombre}`)
-      res.render('products', { listProductsOnDB, nombre, email, id, imagen })
-    } else {
-      logger.info(`Se registra petición GET /productos pero no esta autenticado, se redirige a /login`)
-      res.redirect('/login')
-    }
+    logger.info(`Se registra petición GET /productos por ${nombre}`)
+    res.render('products', { listProductsOnDB, nombre, email, id, imagen })
+  } else {
+    logger.info(`Se registra petición GET /productos pero no esta autenticado, se redirige a /login`)
+  res.redirect('/login')
+  }
   })
 
   .get('/', (req, res) => {
@@ -112,6 +87,7 @@ routeUser
   .post('/registro', upload.single('image'), passport.authenticate('signup',
     { failureRedirect: '/registro-error' }), (req, res) => {
       logger.info(`Se registra petición POST /registro`)
+
       res.redirect('/login')
     })
 
@@ -120,14 +96,20 @@ routeUser
     const image = req.file;
     console.log(image);
     const processImage = sharp(image.buffer)
-    const data = await processImage.resize(200, 200).toBuffer();
+    const data = await processImage.resize(200, 200, {
+      fit: 'contain',
+      background: { r: 255, g: 255, b: 255, alpha: 0 }
 
-    fs.writeFileSync(`newRoute/Users/${image.originalname}`, data);
 
-      
+    }).toBuffer();
 
-    }
-    )
+    console.log(data);
+
+    fs.writeFileSync(`zzz/${image.originalname}`, data);
+
+    res.send(data);
+  }
+  )
 
 
 

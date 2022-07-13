@@ -80,32 +80,5 @@ class UserClass {
             throw err
         }
     }
-
-
-
-
-
 }
-
-
-
-
-/*
-class ProductsClass {
-    constructor () {
-      this.listProducts = []
-    }
-    async getAllProducts () {
-      try {
-        logger.info(`Se registra petición GET /productos`)
-        const productos = await Product.find({})
-        logger.info(`Se obtienen productos`)
-        return productos
-      }
-      catch (err) {
-        logger.error(`Error al obtener productos`)
-        throw err
-      }
-    }
-
-    */
+export default UserClass
